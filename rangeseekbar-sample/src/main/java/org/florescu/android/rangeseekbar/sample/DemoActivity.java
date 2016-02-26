@@ -19,11 +19,14 @@ package org.florescu.android.rangeseekbar.sample;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.LinearLayout;
 
 import org.florescu.android.rangeseekbar.RangeSeekBar;
 
 public class DemoActivity extends Activity {
+
+    private final String TAG = "rangeseekbar.sample";
 
     /**
      * Called when the activity is first created.
@@ -39,7 +42,26 @@ public class DemoActivity extends Activity {
         rangeSeekBar.setRangeValues(15, 90);
         rangeSeekBar.setSelectedMinValue(20);
         rangeSeekBar.setSelectedMaxValue(88);
+        rangeSeekBar.setNotifyWhileDragging(true);
+        rangeSeekBar.setOnRangeSeekBarChangeListener(new RangeSeekBar.OnRangeSeekBarChangeListener<Integer>() {
+            @Override
+            public void onStartTrackingTouch(RangeSeekBar<Integer> bar) {
+                Log.e(TAG, String.format("onStartTrackingTouch: [%d, %d]",
+                        bar.getSelectedMinValue(), bar.getSelectedMaxValue()));
+            }
 
+            @Override
+            public void onRangeSeekBarValuesChanged(RangeSeekBar<Integer> bar, Integer minValue, Integer maxValue) {
+                Log.e(TAG, String.format("onRangeSeekBarValuesChanged: [%d, %d]",
+                        minValue, maxValue));
+            }
+
+            @Override
+            public void onStopTrackingTouch(RangeSeekBar<Integer> bar) {
+                Log.e(TAG, String.format("onStopTrackingTouch: [%d, %d]",
+                        bar.getSelectedMinValue(), bar.getSelectedMaxValue()));
+            }
+        });
         // Add to layout
         LinearLayout layout = (LinearLayout) findViewById(R.id.seekbar_placeholder);
         layout.addView(rangeSeekBar);
