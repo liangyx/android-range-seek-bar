@@ -23,6 +23,9 @@ import android.util.Log;
 import android.widget.LinearLayout;
 
 import org.florescu.android.rangeseekbar.RangeSeekBar;
+import org.florescu.android.rangeseekbar.RangeSeekBar.Thumb;
+
+import static org.florescu.android.rangeseekbar.RangeSeekBar.Thumb.*;
 
 public class DemoActivity extends Activity {
 
@@ -43,6 +46,7 @@ public class DemoActivity extends Activity {
         rangeSeekBar.setSelectedMinValue(20);
         rangeSeekBar.setSelectedMaxValue(88);
         rangeSeekBar.setNotifyWhileDragging(true);
+
         rangeSeekBar.setOnRangeSeekBarChangeListener(new RangeSeekBar.OnRangeSeekBarChangeListener<Integer>() {
             @Override
             public void onStartTrackingTouch(RangeSeekBar<Integer> bar) {
@@ -51,9 +55,9 @@ public class DemoActivity extends Activity {
             }
 
             @Override
-            public void onRangeSeekBarValuesChanged(RangeSeekBar<Integer> bar, Integer minValue, Integer maxValue) {
-                Log.e(TAG, String.format("onRangeSeekBarValuesChanged: [%d, %d]",
-                        minValue, maxValue));
+            public void onRangeSeekBarValuesChanged(RangeSeekBar<Integer> bar, Thumb pressedThumb, Integer value) {
+                Log.e(TAG, String.format("onRangeSeekBarValuesChanged: [%s, %d]",
+                        pressedThumb.name(), value));
             }
 
             @Override

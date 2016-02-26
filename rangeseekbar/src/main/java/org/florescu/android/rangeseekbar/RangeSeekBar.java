@@ -464,7 +464,13 @@ public class RangeSeekBar<T extends Number> extends ImageView {
                     }
 
                     if (notifyWhileDragging && listener != null) {
-                        listener.onRangeSeekBarValuesChanged(this, getSelectedMinValue(), getSelectedMaxValue());
+                        T value;
+                        if (pressedThumb == Thumb.MIN) {
+                            value = getSelectedMinValue();
+                        } else {
+                            value = getSelectedMaxValue();
+                        }
+                        listener.onRangeSeekBarValuesChanged(this, pressedThumb, value);
                     }
                 }
                 break;
@@ -829,7 +835,7 @@ public class RangeSeekBar<T extends Number> extends ImageView {
     /**
      * Thumb constants (min and max).
      */
-    private enum Thumb {
+    public enum Thumb {
         MIN, MAX
     }
 
@@ -896,7 +902,7 @@ public class RangeSeekBar<T extends Number> extends ImageView {
     public interface OnRangeSeekBarChangeListener<T extends Number> {
         void onStartTrackingTouch(RangeSeekBar<T> bar);
 
-        void onRangeSeekBarValuesChanged(RangeSeekBar<T> bar, T minValue, T maxValue);
+        void onRangeSeekBarValuesChanged(RangeSeekBar<T> bar, Thumb pressedThumb, T value);
 
         void onStopTrackingTouch(RangeSeekBar<T> bar);
     }
